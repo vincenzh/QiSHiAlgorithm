@@ -1,0 +1,24 @@
+class Solution {
+public:
+    char nextGreatestLetter(vector<char>& letters, char target) {
+        int start = 0, end = letters.size() - 1;
+        while (start + 1 < end) {
+            int mid = start + (end - start) / 2;
+            if (letters[mid] <= target) {
+                start = mid;
+            }
+            else {
+                end = mid;
+            }
+        }
+        if (target < letters[start]) {
+            return letters[start];
+        }
+        else if (letters[start] <= target && target < letters[end]) {
+            return start < letters.size() - 1 ? letters[start + 1] : letters[0];
+        }
+        else {
+            return end < letters.size() - 1 ? letters[end + 1] : letters[0];
+        }
+    }
+};
