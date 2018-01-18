@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int findRadius(vector<int>& houses, vector<int>& heaters) {
+        sort(houses.begin(), houses.end());
+        sort(heaters.begin(), heaters.end());
+        int idx1 = 0, idx2 = 0;
+        vector<int>res(houses.size(), INT_MAX);
+        // compare houses to the heaters on RHS
+        for (; idx1 < houses.size() && idx2 < heaters.size();) {
+            if (houses[idx1] <= heaters[idx2]) {
+                res[idx1] = heaters[idx2] - houses[idx1];
+                ++idx1;
+            }
+            else {
+                ++idx2;
+            }
+        }
+        // compare houses to the heaters on LHS
+        for (idx1 = houses.size() - 1, idx2 = heaters.size() - 1; idx1 >= 0 && idx2 >= 0;) {
+            if (houses[idx1] >= heaters[idx2]) {
+                res[idx1] = min(res[idx1], houses[idx1] - heaters[idx2]);
+                --idx1;
+            }
+            else {
+                --idx2;
+            }
+        }
+        int maxDist = INT_MIN;
+        for (auto i : res) {
+            if (i > maxDist) {
+                maxDist = i;
+            }
+        }
+        return maxDist;
+    }
+};
