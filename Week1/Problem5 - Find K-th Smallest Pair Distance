@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int smallestDistancePair(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
+        int low = 0, high = nums[nums.size() - 1] - nums[0];
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            int count = 0;
+            for (int right = 0, left = 0; right < n; ++right) {
+                while (left < n && nums[left] - nums[right] <= mid) {
+                    ++left;
+                }
+                count += left - right - 1;
+            }
+            if (count < k) {
+                low = mid + 1;
+            }
+            else {
+                high = mid;
+            }
+        }
+        return low;
+    }
+};
